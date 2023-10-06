@@ -9,3 +9,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Client {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  collect   Collect[]
+
+  @@map("clients")
+}
+
+model Collect {
+  id        Int               @id @default(autoincrement())
+  type      enum_collect_type
+  mass      Float
+  volume    Float
+  clientId  Int
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id])
+
+  @@map("collects")
+}
+
+enum enum_collect_type {
+  domiciliares
+  limpeza_urbana
+  solidos_urbanos
+  saneamento_basico
+  industriais
+  servicos_saude
+  construcao_civil
+  agrossilvopastoris
+  servicos_transportes
+  mineracao
+}
