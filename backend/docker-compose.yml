@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres-ecosmart
+    image: postgres:16.0
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      PGDATA: /postgres-disk/postgres
+    volumes:
+      - ${APPS_DISK_PATH:-/data-disk/}postgres:/postgres-disk/postgres
+    ports:
+      - "5432:5432"
+    restart: always
