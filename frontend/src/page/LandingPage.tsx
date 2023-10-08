@@ -7,10 +7,13 @@ export function LandingPage() {
   const listBox = ["client", "collect"];
 
   return (
-    <div style={{ height: "100vh", width: "100wh" }}>
+    <div
+      style={{ height: "100vh", width: "100wh", backgroundColor: "#eeeeee" }}
+    >
       <Box>
         {listBox.map((box) => (
           <Box
+            key={box}
             sx={{
               flexGrow: 1,
               display: "flex",

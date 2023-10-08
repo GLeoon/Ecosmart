@@ -7,3 +7,7 @@ export const createCollect = (name: string) => {
 export const getAllCollects = () => {
   return api.get("/collect");
 };
+
+export const removeCollect = (id: number) => {
+  return api.delete(`/collect/${id}`);
+};
