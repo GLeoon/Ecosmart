@@ -11,3 +11,7 @@ export const getAllCollects = () => {
 export const removeCollect = (id: number) => {
   return api.delete(`/collect/${id}`);
 };
+
+export const updateCollect = (id: number, data: any) => {
+  return api.patch(`/collect/${id}`, data);
+};

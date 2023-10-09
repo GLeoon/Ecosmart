@@ -16,6 +16,7 @@ type ClientType = {
 
 export function Client() {
   const [clients, setClients] = useState<ClientType[]>([]);
+  const [att, setAtt] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,11 +26,12 @@ export function Client() {
     }
 
     fetchPages();
-  }, []);
+  }, [att]);
 
   const deleteClient = async (id: number) => {
     try {
       await removeClient(id);
+      setAtt(false);
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,

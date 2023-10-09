@@ -18,3 +18,7 @@ export const getAllClients = () => {
 export const removeClient = (id: number) => {
   return api.delete(`/client/${id}`);
 };
+
+export const getOneClient = (id: number) => {
+  return api.get(`/client/${id}`);
+};

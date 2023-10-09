@@ -18,6 +18,7 @@ type CollectType = {
 
 export function Collect() {
   const [collect, setCollect] = useState<CollectType[]>([]);
+  const [att, setAtt] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,11 +28,12 @@ export function Collect() {
     }
 
     fetchPages();
-  }, []);
+  }, [att]);
 
   const deleteCollect = async (id: number) => {
     try {
       await removeCollect(id);
+      setAtt(false);
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,

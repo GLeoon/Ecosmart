@@ -11,23 +11,36 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import ResponsiveDialog from "./Dialogo";
+import ResponsiveDialog from "./DialogoDelete";
+import ResponsiveDialogEdit from "./DialogoEdit";
 
 interface IProps {
   data?: { [key: string]: any }[];
   remove: (id: number) => void;
+  setAtt?: any;
 }
 
-export function Tabelas({ data, remove }: IProps) {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<any>();
+export function Tabelas({ data, remove, setAtt }: IProps) {
+  const [open, setOpen] = useState({
+    open: false,
+    selected: {},
+  });
+  const [openEdit, setOpenEdit] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (row: any) => {
+    setOpen({ open: true, selected: row });
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen({ ...open, open: false });
+  };
+
+  const handleClickOpenEdit = () => {
+    setOpenEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
   };
 
   return (
@@ -40,8 +53,8 @@ export function Tabelas({ data, remove }: IProps) {
       }}
     >
       <ResponsiveDialog
-        inf={selected}
-        open={open}
+        inf={open.selected}
+        open={open.open}
         handleClose={handleClose}
         remove={remove}
       />
@@ -64,13 +77,19 @@ export function Tabelas({ data, remove }: IProps) {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <ResponsiveDialogEdit
+                  inf={row}
+                  open={openEdit}
+                  handleClose={handleCloseEdit}
+                  setAtt={setAtt}
+                />
                 {Object.keys(data[0]).map((inf) => (
                   <TableCell key={`${inf}${row}`}>{row[inf]}</TableCell>
                 ))}
                 <TableCell>
                   <Button
                     sx={{ color: "black" }}
-                    onClick={() => console.log("abre popup")}
+                    onClick={() => handleClickOpenEdit()}
                   >
                     <EditIcon />
                   </Button>
@@ -78,7 +97,7 @@ export function Tabelas({ data, remove }: IProps) {
                 <TableCell>
                   <Button
                     sx={{ color: "black" }}
-                    onClick={() => (handleClickOpen(), setSelected(row))}
+                    onClick={() => handleClickOpen(row)}
                   >
                     <DeleteIcon />
                   </Button>
